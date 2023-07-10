@@ -13,15 +13,16 @@ export function Value({ value, children }: IValue) {
     currency: "BRL",
   });
 
+  const until = value < 0 ? (0) : (value);
   const duracaoAnimacao = 2000;
-  const incrementoPorIntervalo = value / (duracaoAnimacao / 10);
+  const incrementoPorIntervalo = until / (duracaoAnimacao / 10);
 
 
   React.useEffect(() => {
     const intervalo = setInterval(() => {
       setNumeroAtual((prevNumero) => {
         const novoNumero = prevNumero + incrementoPorIntervalo;
-        return novoNumero >= value ? value : novoNumero;
+        return novoNumero >= until ? value : novoNumero;
       });
     }, 10);
 

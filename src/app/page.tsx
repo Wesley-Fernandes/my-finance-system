@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 export default function Home() {
 
   return (
-    <div className="min-h-screen overflow-y-scroll bg-white">
-      <section className="text-gray-600 body-font flex h-screen justify-center items-center">
+    <div className="h-screen overflow-y-scroll bg-white">
+      <section className="text-gray-600 body-font flex h-screen justify-center">
         <div className="container  mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
           <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center  p-2 mr-2 rounded">
             <h1 className="title-font max-[960px]:text-3xl mb-2  text-indigo-500 text-5xl font-extrabold">

@@ -9,6 +9,8 @@ const formatter = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 });
+
+
 export function Value({type,value}:props) {
   return (
     <div className="flex justify-between items-center">

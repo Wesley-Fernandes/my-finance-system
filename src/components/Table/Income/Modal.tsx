@@ -13,6 +13,12 @@ export function Modal({ data }: props) {
   const datas = DatasStore((state) => state.datas);
   const setDatas = DatasStore((state) => state.setDatas);
 
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+
   const exclude = async () => {
     const { error } = await supabase
       .from("receipts")
@@ -26,6 +32,9 @@ export function Modal({ data }: props) {
       console.log("Data apagada com sucesso!");
     }
   };
+
+  const valueToShow = formatter.format(data.coust);
+  console.log(valueToShow);
   return (
     <form
       method="dialog"
@@ -37,10 +46,10 @@ export function Modal({ data }: props) {
       <div className="mb-6">
         <h3 className="text-base">Valor</h3>
         <input
-          type="number"
+          type="text"
           name="title"
           id="title"
-          value={data.coust}
+          value={valueToShow}
           disabled
           className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
         />
@@ -78,7 +87,7 @@ export function Modal({ data }: props) {
           <button
             type="button"
             onClick={exclude}
-            className="btn join-item flex flex-1 btn-warning"
+            className="btn join-item flex flex-1 btn-primary"
           >
             Deletar
           </button>
