@@ -5,6 +5,7 @@ import { tryLogin } from "@modules/utils/authenticate";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FormEvent } from "react";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -25,13 +26,13 @@ export default function Login() {
 
     if (!email) {
       setLoading(false);
-      //toast.error("Por favor, insira um e-mail.");
+      toast.error("Por favor, insira um e-mail.");
       return;
     }
 
     if (!password) {
       setLoading(false);
-      //toast.warning("Por favor, insira o seu password.");
+      toast.warning("Por favor, insira o seu password.");
       return;
     }
 
@@ -43,7 +44,7 @@ export default function Login() {
     if (error) {
       setLoading(false);
       console.error(error);
-      //toast.warning(error.message);
+      toast.warning(error.message);
       return;
     } else {
       setLoading(false);
