@@ -1,15 +1,17 @@
-'use client'
+"use client";
 import Header from "@modules/components/Header";
 import Taker from "@modules/components/Taker";
 import User from "@modules/components/User";
 import React from "react";
 
-import { BsArrowUpShort, BsArrowDownShort} from "react-icons/bs";
+import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
 export default function Users() {
+  const [data, setData] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(false);
   return (
     <section className="text-gray-600 body-font w-screen h-screen">
       <Header>
-        <Taker/>
+        <Taker setData={setData} setLoading={setLoading} />
       </Header>
       <div className="flex flex-wrap">
         <div className="flex flex-wrap gap-1 pt-2">
@@ -20,22 +22,12 @@ export default function Users() {
               <User.Subtitle subtitle="Wesleyintelligence@gmail.com" />
               <User.Tags>
                 <User.Tag value={9000} key={1} title="Para receber">
-                  <BsArrowUpShort className="mr-1"/>
+                  <BsArrowUpShort className="mr-1" />
                 </User.Tag>
-
                 <User.Tag value={2000} key={2} title="Para pagar">
-                  <BsArrowDownShort className="mr-1"/>
+                  <BsArrowDownShort className="mr-1" />
                 </User.Tag>
               </User.Tags>
-            </User.Content>
-          </User.Container>
-
-          <User.Container key={2}>
-            <User.Icon imageURL="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" />
-            <User.Content>
-              <User.Title name="Felipe Mello" />
-              <User.Subtitle subtitle="Vivendo minha vida intensamente." />
-              <User.Jumper />
             </User.Content>
           </User.Container>
         </div>
