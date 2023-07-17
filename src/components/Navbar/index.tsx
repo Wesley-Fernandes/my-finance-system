@@ -8,7 +8,7 @@ import supabase from "@modules/supabase/supabase";
 
 export default function Navbar() {
   const [modal, setModal] = useState<boolean>(false);
-  const [icon, setIcon] = useState<string>("");
+  const [icon, setIcon] = useState<string>("http://localhost:3000/user.png");
   function toogle() {
     switch (modal) {
       case true:
@@ -72,7 +72,7 @@ export default function Navbar() {
           onClick={() => {
             toogle();
           }}
-          className={`w-10 h-10 hover:ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center `} style={{ backgroundImage: `url('${icon}')`}}
+          className={`w-10 h-10 ring-primary ring-2 hover:ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center `} style={{ backgroundImage: `url('${icon}')`}}
         >
           {modal ? <Modal /> : <></>}
         </div>
