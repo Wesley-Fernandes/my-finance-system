@@ -41,7 +41,7 @@ export default function Dashboard() {
 
     getMouthName();
     getAllMouthReceipts({ setReceipts: setDatas });
-  }, []);
+  }, [datas]);
 
   return (
     <div className="flex h-screen flex-col">

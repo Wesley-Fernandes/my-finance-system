@@ -28,7 +28,7 @@ export default function Receipt() {
 
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-90px)]">
+    <div className="flex items-center justify-center min-h-screen pt-10 pb-10">
       <div className="container mx-auto">
         <div className="max-w-md mx-auto">
           <form className="max-w-md pl-2 pr-2" onSubmit={submiter}>

@@ -28,6 +28,8 @@ export function Value({ value, children }: IValue) {
 
     return () => clearInterval(intervalo);
   });
+
+  
   return (
     <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
       <span>{formatter.format(numeroAtual)}</span>
