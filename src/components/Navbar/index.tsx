@@ -60,6 +60,11 @@ export default function Navbar() {
             Criar receita
           </Link>
         </li>
+        <li className="font-medium text-sm p-3 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-gray-600 hover:text-primary transition-colors">
+          <Link href={"/Takers"} className="text-base-content">
+            Tomadores
+          </Link>
+        </li>
 
         <li className="font-medium text-sm p-3 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-gray-600 hover:text-primary transition-colors">
           <Link href={"/Exit"} className="text-base-content">

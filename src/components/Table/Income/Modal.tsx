@@ -34,7 +34,6 @@ export function Modal({ data }: props) {
   };
 
   const valueToShow = formatter.format(data.coust);
-  console.log(valueToShow);
   return (
     <form
       method="dialog"

@@ -96,7 +96,7 @@ export default function Register() {
     }
   };
   return (
-    <div className="flex h-screen justify-center items-center ">
+    <div className="flex min-h-screen justify-center items-center ">
       <div className="container mx-auto">
         <div className="max-w-md mx-auto my-10">
           <div className="text-center">
@@ -216,7 +216,9 @@ export default function Register() {
             <Swap />
           </div>
         </div>
+        <p className="uppercase text-center text-base-content mb-5">Versão: 1.1.0</p>
       </div>
+      
     </div>
   );
 }

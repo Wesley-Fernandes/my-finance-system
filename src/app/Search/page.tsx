@@ -15,6 +15,7 @@ import { receiptProps } from "@modules/types/receipts";
 import { allCosts, allProfit, allReceipts } from "@modules/utils/receipts";
 import { DatasStore } from "@modules/context/store";
 
+
 export default function Search() {
   const [loading, setLoading] = React.useState<boolean>(false);
   const datas = DatasStore((state) => state.datas);
@@ -23,7 +24,7 @@ export default function Search() {
   return (
     <div>
       <Header>
-        <SearchComponent setData={setDatas} setLoading={setLoading} />
+        <SearchComponent setData={setDatas} setLoading={setLoading} loading={loading} />
         <Card.Container key={"Ganhos"}>
           <Card.Icon>
             <BsBank2 className="text-white text-3xl" />
@@ -69,7 +70,6 @@ export default function Search() {
 
         <Table.List>
           {datas.map((data: receiptProps) => {
-            console.log(data.title)
             return (
               <Income.Container data={data} key={data.id}>
                 <Income.Value value={data.coust} type={data.type} />

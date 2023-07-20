@@ -6,7 +6,7 @@ interface props{
 
 export function Title({name}: props) {
   return (
-    <h2 className="text-gray-900 text-lg title-font font-medium">
+    <h2 className="text-base-content text-lg title-font font-medium">
       {name}
     </h2>
   );

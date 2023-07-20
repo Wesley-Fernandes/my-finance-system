@@ -1,97 +1,67 @@
 "use client";
-import React, { useRef } from "react";
-import { BsSearch } from "react-icons/bs";
-import { BsArrowUpShort } from "react-icons/bs";
-import { mouth } from "./mouths";
-import { years } from "./years";
-import { newSearch } from "./search";
-
-interface IMouth {
-  text: string;
-  value: number;
-}
+import React from "react";
+import { searchByDate, searchByIdentification } from "./search-functions";
+import { SearchByDate } from "./SearchByDate";
+import { SearchByID } from "./SearchByID";
+import { SearchButtons } from "./SearchButtons";
+import SearchOptions from "./SearchOptions";
+import SearchForm from "./SearchForm";
+import SearchApressentation from "./SearchApressentation";
+import { DatasStore } from "@modules/context/store";
+import { getTakers } from "../Taker/taker-functions";
 
 interface searchProps {
   setLoading: (value: any) => void;
   setData: (value: any) => void;
+  loading: boolean;
 }
-export default function SearchComponent({ setLoading, setData }: searchProps) {
-  const modal = useRef<HTMLDialogElement>(null);
+export default function SearchComponent({
+  setLoading,
+  setData,
+  loading,
+}: searchProps) {
+  const modal = React.useRef<HTMLDialogElement>(null);
+  const [option, setOption] = React.useState(false);
 
   const close = () => {
     modal.current?.close();
   };
 
+  const show = () => {
+    modal.current?.show();
+  };
+
+  async function submiter(event: React.FormEvent) {
+    if (option) {
+      searchByIdentification({
+        e: event,
+        setLoading,
+        setReceipts: setData,
+        modal: modal.current,
+      });
+    } else {
+      searchByDate({
+        e: event,
+        setLoading,
+        setReceipts: setData,
+        modal: modal.current,
+      });
+    }
+  }
+
   return (
     <>
-      <section
-        className="animate__animated animate__fadeIn flex items-center justify-center h-screen cursor-pointer"
-        onClick={() => {
-          modal.current?.showModal();
-        }}
-      >
-        <div className="w-24 h-24 flex items-center justify-center bg-indigo-500 rounded-lg  max-[950px]:w-[calc(100vw-2rem)]">
-          <div className="flex-row space-x-4 items-center flex">
-            <span className="flex items-center gap-1 text-base-100 cursor-pointer">
-              <BsSearch
-                fontSize={40}
-                className=" max-[940px]:hidden text-white"
-              />
-              <span className="hidden max-[940px]:block text-white text-lg uppercase">
-                Fazer uma pesquisa
-              </span>
-            </span>
-          </div>
-        </div>
-      </section>
-
+      <SearchApressentation show={show} />
       <dialog id="my_modal_1" className="modal" ref={modal}>
-        <form
-          method="dialog"
-          className="modal-box flex flex-col gap-2"
-          onSubmit={(e) => {
-            newSearch({
-              e,
-              setLoading,
-              setReceipts: setData,
-              modal: modal.current,
-            });
-          }}
-        >
-          <h3 className="font-bold text-lg">Pesquisar uma data</h3>
-          <select name="mouth" className="select select-bordered w-full">
-            <>
-              {mouth.map(({ text, value }: IMouth) => {
-                return (
-                  <option value={value} key={text}>
-                    {text}
-                  </option>
-                );
-              })}
-            </>
-          </select>
-
-          <select name="year" className="select select-bordered w-full">
-            <>
-              {years.map((ano: number) => {
-                return (
-                  <option value={ano} key={ano}>
-                    {ano}
-                  </option>
-                );
-              })}
-            </>
-          </select>
-
-          <div className="modal-action flex justify-between">
-            <button type="button" className="btn" onClick={close}>
-              Fechar
-            </button>
-            <button type="submit" className="btn btn-primary">
-              Pesquisar
-            </button>
-          </div>
-        </form>
+        <SearchForm submiter={submiter}>
+          <SearchOptions first="Por tomador" second="Por data" setOption={setOption} />
+          {!option ? (
+            <SearchByDate setData={setData} setLoading={setLoading} />
+          ) : (
+            <SearchByID setData={setData} setLoading={setLoading} />
+          )}
+          <SearchButtons loading={loading} close={close} />
+        </SearchForm>
       </dialog>
     </>
   );

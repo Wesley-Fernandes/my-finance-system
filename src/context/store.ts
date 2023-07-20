@@ -1,5 +1,6 @@
 import { receiptProps } from "@modules/types/receipts";
-import {create} from "zustand";
+import { create } from "zustand";
+import { takerProps } from "@modules/types/takers";
 
 interface itemsType{
     newTheme: 'dark'|'light';
@@ -7,7 +8,9 @@ interface itemsType{
 
 type DatasProps = {
     datas: receiptProps[];
-    setDatas: (data:receiptProps[])=>void;
+    takers: takerProps[];
+    setDatas: (data: receiptProps[]) => void;
+    setTakers: (data: takerProps[]) => void;
 }
 
 type ThemeProps = {
@@ -16,8 +19,10 @@ type ThemeProps = {
 }
 
 const DatasStore = create<DatasProps>((set) => ({
+    takers: [],
     datas: [],
-    setDatas: (data:any) => set((state)=>({datas: data}))
+    setDatas: (data: any) => set((state) => ({ datas: data })),
+    setTakers: (data:any) => set((state)=>({takers: data}))
 }))
 
 const ThemeStore = create<ThemeProps>((set) => ({

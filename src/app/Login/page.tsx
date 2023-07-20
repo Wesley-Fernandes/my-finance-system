@@ -125,10 +125,14 @@ export default function Login() {
               </p>
             </form>
             <hr  className="mt-5"/>
-            <Swap/>
+            <Swap />
+            
           </div>
+          
         </div>
+        <p className="uppercase text-center text-base-content">Versão: 1.1.0</p>
       </div>
+
     </div>
   );
 }

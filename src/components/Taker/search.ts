@@ -65,4 +65,5 @@ export async function newSearch({e, setLoading, setReceipts, modal}:IMouthReceip
       setLoading(false);
       setReceipts(datas);
     }
-  }
+}
+  

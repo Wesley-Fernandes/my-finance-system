@@ -1,34 +1,32 @@
 "use client";
-import React, { useRef } from "react";
-import { BsFillPlusSquareFill } from "react-icons/bs";
-import { BsArrowUpShort } from "react-icons/bs";
-import { mouth } from "./mouths";
-import { years } from "./years";
-import { newSearch } from "./search";
-
-interface IMouth {
-  text: string;
-  value: number;
-}
+import React from "react";
+import { newTaker } from "./taker-functions";
+import { takerProps } from "@modules/types/takers";
 
 interface searchProps {
   setLoading: (value: any) => void;
-  setData: (value: any) => void;
+  setTakers: (value: any) => void;
+  takers: takerProps[];
 }
-export default function Taker({ setLoading, setData }: searchProps) {
-  const modal = useRef<HTMLDialogElement>(null);
+export default function Taker({ setLoading, setTakers, takers }: searchProps) {
+  const modal = React.useRef<HTMLDialogElement>(null);
 
   const close = () => {
     modal.current?.close();
   };
 
+  const show = () => {
+    modal.current?.show();
+  };
+
+  async function submiter(event: React.FormEvent) {
+    newTaker({ event, setLoading, setTakers, close, takers });
+  }
   return (
     <>
       <section
         className="animate__animated animate__fadeIn flex items-center justify-center h-screen cursor-pointer"
-        onClick={() => {
-          modal.current?.showModal();
-        }}
+        onClick={show}
       >
         <div className="w-60 h-24 flex items-center justify-center bg-indigo-500 rounded-lg  max-[950px]:w-[calc(100vw-2rem)]">
           <div className="flex-row space-x-4 items-center flex">
@@ -45,26 +43,20 @@ export default function Taker({ setLoading, setData }: searchProps) {
         <form
           method="dialog"
           className="modal-box flex flex-col gap-2"
-          onSubmit={(e) => {
-            newSearch({
-              e,
-              setLoading,
-              setReceipts: setData,
-              modal: modal.current,
-            });
-          }}
+          onSubmit={submiter}
         >
           <h3 className="font-bold text-lg">Adicionar tomador</h3>
           <input
             type="text"
-            placeholder="Nome do úsuario"
+            placeholder="Nome do tomador"
+            name="name"
             className="input input-bordered w-full"
           />
 
-          <input
-            type="email"
-            placeholder="Email@example.com"
-            className="input input-bordered w-full"
+          <textarea
+            className="textarea textarea-bordered"
+            name="description"
+            placeholder="Descrição do tomador."
           />
 
           <div className="modal-action flex justify-between">
