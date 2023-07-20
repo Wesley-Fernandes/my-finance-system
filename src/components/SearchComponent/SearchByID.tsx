@@ -27,7 +27,7 @@ export function SearchByID({ setLoading, setData }: searchProps) {
       <h3 className="font-bold text-lg">Pesquisar por tomador</h3>
       <SearchSelect data={mouth} name="mouth" option="long" key={"mouth"} />
       <SearchSelect data={years} name="year" option="short" key={"year"} />
-      <SearchSelectTaker data={takers}  name="takers" />
+      <SearchSelectTaker data={takers}  name="takers" change={()=>undefined}/>
     </>
   );
 }
