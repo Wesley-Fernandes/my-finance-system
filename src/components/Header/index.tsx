@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface IHeader {
   children: any;
@@ -9,7 +9,6 @@ export default function Header({ children }: IHeader) {
   const [quantity, setQuantity] = useState<number>(0);
   const [sw, setSw] = useState<number>(0);
   const header = useRef<HTMLDivElement>(null);
-  //96*quantity
   useEffect(() => {
     if (header.current) {
       const q = header.current.querySelectorAll("section");

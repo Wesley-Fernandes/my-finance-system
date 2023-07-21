@@ -48,6 +48,9 @@ export default function Login() {
       return;
     } else {
       setLoading(false);
+      if (user.session.access_token) {
+        localStorage.setItem("user_my_finance", user.session.access_token);
+      }
       push("/Dashboard");
     }
   }

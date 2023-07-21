@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useRef, useState, FormEvent } from "react";
 import { searchByDate, searchByIdentification } from "./search-functions";
 import { SearchByDate } from "./SearchByDate";
 import { SearchByID } from "./SearchByID";
@@ -7,8 +7,6 @@ import { SearchButtons } from "./SearchButtons";
 import SearchOptions from "./SearchOptions";
 import SearchForm from "./SearchForm";
 import SearchApressentation from "./SearchApressentation";
-import { DatasStore } from "@modules/context/store";
-import { getTakers } from "../Taker/taker-functions";
 
 interface searchProps {
   setLoading: (value: any) => void;
@@ -20,8 +18,8 @@ export default function SearchComponent({
   setData,
   loading,
 }: searchProps) {
-  const modal = React.useRef<HTMLDialogElement>(null);
-  const [option, setOption] = React.useState(false);
+  const modal = useRef<HTMLDialogElement>(null);
+  const [option, setOption] = useState(false);
 
   const close = () => {
     modal.current?.close();
@@ -31,7 +29,7 @@ export default function SearchComponent({
     modal.current?.show();
   };
 
-  async function submiter(event: React.FormEvent) {
+  async function submiter(event: FormEvent) {
     if (option) {
       searchByIdentification({
         e: event,
@@ -54,7 +52,11 @@ export default function SearchComponent({
       <SearchApressentation show={show} />
       <dialog id="my_modal_1" className="modal" ref={modal}>
         <SearchForm submiter={submiter}>
-          <SearchOptions first="Por tomador" second="Por data" setOption={setOption} />
+          <SearchOptions
+            first="Por tomador"
+            second="Por data"
+            setOption={setOption}
+          />
           {!option ? (
             <SearchByDate setData={setData} setLoading={setLoading} />
           ) : (

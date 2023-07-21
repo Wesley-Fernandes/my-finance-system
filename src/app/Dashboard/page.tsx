@@ -6,7 +6,7 @@ import Header from "@modules/components/Header";
 import Table from "@modules/components/Table";
 import Income from "@modules/components/Table/Income";
 
-import React from "react";
+import {useState, useEffect} from "react";
 
 //Tipagem
 import { receiptProps } from "@modules/types/receipts";
@@ -26,12 +26,12 @@ import { mouths } from "./mouths";
 import { DatasStore } from "@modules/context/store";
 
 export default function Dashboard() {
-  const [mouth, setMouth] = React.useState<string>("");
+  const [mouth, setMouth] = useState<string>("");
 
   const datas = DatasStore((state) => state.datas);
   const setDatas = DatasStore((state) => state.setDatas);
 
-  React.useEffect(() => {
+  useEffect(() => {
     function getMouthName() {
       const dataAtual = new Date();
       const newMouth = mouths[dataAtual.getMonth()];
@@ -40,8 +40,11 @@ export default function Dashboard() {
     }
 
     getMouthName();
-    getAllMouthReceipts({ setReceipts: setDatas });
-  }, [datas]);
+    if (datas.length<=0) {
+      console.log("No data, geting mouth receipts...")
+      getAllMouthReceipts({ setReceipts: setDatas });
+    }
+  }, []);
 
   return (
     <div className="flex h-screen flex-col">

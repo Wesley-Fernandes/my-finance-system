@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import {useState, useEffect, FormEvent} from "react";
 import { newReceipt } from "./new";
 import SearchOptions from "@modules/components/SearchComponent/SearchOptions";
 import { SearchSelectTaker } from "@modules/components/SearchComponent/SearchSelectTaker";
@@ -10,21 +10,22 @@ import { getTakers } from "@modules/components/Taker/taker-functions";
 export default function Receipt() {
   const takers = DatasStore((state) => state.takers);
   const setTakers = DatasStore((state) => state.setTakers);
-  const [option, setOption] = React.useState(false);
-  const [resume, setResume] = React.useState<any>(0);
+  const [option, setOption] = useState(false);
+  const [resume, setResume] = useState<any>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  async function submiter(event: React.FormEvent) {
+  async function submiter(event: FormEvent) {
     event.preventDefault();
     newReceipt({ event, option, taker: takers[resume]});
   }
 
-  React.useEffect(() => {
-      getTakers({ setLoading: () => undefined, setTakers });
+
+  useEffect(() => {
+      console.log("Getting takers...");
+      getTakers({ setLoading, setTakers });
   }, []);
 
-  React.useEffect(() => {
-    console.log(takers[resume])
-  }, [resume]);
+
 
 
   return (

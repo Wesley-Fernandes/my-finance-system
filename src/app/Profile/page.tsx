@@ -1,11 +1,9 @@
 "use client";
-import Swap from "@modules/components/Navbar/Swap";
 import supabase from "@modules/supabase/supabase";
 import { IImgbb } from "@modules/types/imgbb";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useEffect } from "react";
+import { useEffect, useState, FormEvent } from "react";
 
 interface userProps {
   id: string | undefined;
@@ -16,9 +14,9 @@ interface userProps {
 }
 
 export default function Profile() {
-  const [user, setUser] = React.useState<userProps | null>();
-  const [picture, setPicture] = React.useState<any>("");
-  const [image, setImage] = React.useState<any>("");
+  const [user, setUser] = useState<userProps | null>();
+  const [picture, setPicture] = useState<any>("");
+  const [image, setImage] = useState<any>("");
   const { push } = useRouter();
 
   async function register(event: FormEvent) {

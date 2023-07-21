@@ -10,7 +10,7 @@ interface newReceiptProps{
     taker: takerProps;
 }
 async function newReceipt({event, option, taker}:newReceiptProps){
-    
+    console.log("Creating new receipt...")
 
     const target = event.target as typeof event.target &{
       about:    {value: string},

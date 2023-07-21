@@ -13,6 +13,7 @@ export function Modal() {
     if (error) {
       throw new Error(error.message);
     } else {
+      localStorage.removeItem("user_my_finance");
       push("/");
     }
   };

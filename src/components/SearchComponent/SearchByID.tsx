@@ -19,9 +19,11 @@ export function SearchByID({ setLoading, setData }: searchProps) {
 
   React.useEffect(() => {
     if (takers.length == 0) {
+
+      console.log("No takers, getting takers for search...");
       getTakers({ setLoading, setTakers });
     }
-  });
+  }, []);
   return (
     <>
       <h3 className="font-bold text-lg">Pesquisar por tomador</h3>
