@@ -1,100 +1,24 @@
 "use client";
 import Swap from "@modules/components/Navbar/Swap";
-import supabase from "@modules/supabase/supabase";
-import { IImgbb } from "@modules/types/imgbb";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { fileChange, register } from "./register";
 
 export default function Register() {
-  const [loading, setLoading] = React.useState(false);
-  const [picture, setPicture] = React.useState<any>();
-  const [image, setImage] = React.useState<any>("/user");
+  const [loading, setLoading] = useState(false);
+  const [picture, setPicture] = useState<any>();
+  const [image, setImage] = useState<any>("/user");
   const { push } = useRouter();
 
-  async function register(event: FormEvent) {
-    event.preventDefault();
-
-    setLoading(true);
-
-    const target = event.target as typeof event.target & {
-      email: { value: string };
-      password: { value: string };
-      name: { value: string };
-      pix: { value: string };
-    };
-
-    const email = target.email.value;
-    const password = target.password.value;
-    const username = target.name.value;
-    const pix = target.pix.value;
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          username,
-          pix,
-          icon: "",
-          deleteICON: "",
-        },
-      },
-    });
-
-    if (error) {
-      console.error(error.message);
-      return;
-    } else {
-      axios
-        .post(
-          encodeURI(
-            `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API}`
-          ),
-          picture
-        )
-        .then(async (result) => {
-          const response: IImgbb = result.data;
-
-          const { data: userData, error } = await supabase.auth.updateUser({
-            data: {
-              icon: response.data.thumb.url,
-              deleteICON: response.data.delete_url,
-            },
-          });
-
-          if (error) {
-            console.log(error.message);
-          } else {
-            alert("usuario criado com sucesso");
-            push("/Dashboard");
-            return;
-          }
-        });
-    }
+  async function submiter(event: FormEvent) {
+    register({ event, picture, push, setLoading });
   }
 
-  const fileChange = (event: FormEvent) => {
-    const target: any = event.target;
+  async function changeImage(event: FormEvent) {
+    fileChange({ event, setImage, setPicture });
+  }
 
-    const arquive = target.files[0];
-    const reader = new FileReader();
-    const form_data = new FormData();
-    form_data.append("image", arquive);
-    form_data.append("name", "user image");
-
-    setPicture(form_data);
-
-    reader.onload = () => {
-      const image64 = reader.result;
-      setImage(image64);
-    };
-
-    if (arquive) {
-      reader.readAsDataURL(arquive);
-    }
-  };
   return (
     <div className="flex min-h-screen justify-center items-center ">
       <div className="container mx-auto">
@@ -108,7 +32,7 @@ export default function Register() {
             </p>
           </div>
           <div className="m-7">
-            <form onSubmit={register}>
+            <form onSubmit={submiter}>
               <div className="flex justify-center">
                 <div className="avatar">
                   <div className="w-24 mask mask-squircle">
@@ -122,7 +46,7 @@ export default function Register() {
                 </label>
                 <input
                   type="file"
-                  onChange={fileChange}
+                  onChange={changeImage}
                   className="file-input file-input-bordered w-full"
                 />
               </div>
@@ -216,9 +140,10 @@ export default function Register() {
             <Swap />
           </div>
         </div>
-        <p className="uppercase text-center text-base-content mb-5">Versão: 1.1.0</p>
+        <p className="uppercase text-center text-base-content mb-5">
+          Versão: 1.1.0
+        </p>
       </div>
-      
     </div>
   );
 }

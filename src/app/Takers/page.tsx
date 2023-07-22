@@ -1,28 +1,29 @@
 "use client";
 import Header from "@modules/components/Header";
 import Taker from "@modules/components/Taker";
-import { getTakers } from "@modules/components/Taker/taker-functions";
 import User from "@modules/components/User";
+
+import { getTakers } from "@modules/components/Taker/taker-functions";
 import { DatasStore } from "@modules/context/store";
 import { takerProps } from "@modules/types/takers";
-import React from "react";
-
+import { useState, useEffect } from "react";
 import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
 export default function Takers() {
-  const datas = DatasStore((state) => state.takers);
-  const setTaker = DatasStore((state) => state.setTakers);
-  const [takers, setTakers] = React.useState<takerProps[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const datas     = DatasStore((state) => state.takers);
+  const setTaker  = DatasStore((state) => state.setTakers);
+  const [takers, setTakers]   = useState<takerProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getTakers({ setLoading, setTakers });
 
     return () => {
       if (!datas) {
         setTaker(takers);
       }
-    }
+    };
   }, []);
+
   return (
     <section className="text-gray-600 body-font w-full h-full overflow-x-hidden">
       <Header>

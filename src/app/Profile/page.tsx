@@ -4,6 +4,8 @@ import { IImgbb } from "@modules/types/imgbb";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, FormEvent } from "react";
+import { recoverUserData, updateUser } from "./profile";
+import { fileChange } from "../Register/register";
 
 interface userProps {
   id: string | undefined;
@@ -19,113 +21,21 @@ export default function Profile() {
   const [image, setImage] = useState<any>("");
   const { push } = useRouter();
 
-  async function register(event: FormEvent) {
-    if (!event) {
-      throw new Error("Event is missing");
-    } else {
-      (async function protectedRegister() {
-        event.preventDefault();
-
-        const target = event.target as typeof event.target & {
-          email: { value: string };
-          password: { value: string };
-          name: { value: string };
-          pix: { value: string };
-        };
-
-        const username = target.name.value;
-        const pix = target.pix.value;
-
-        if (user?.icon != image) {
-          axios
-            .post(
-              encodeURI(
-                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API}`
-              ),
-              picture
-            )
-            .then(async (result) => {
-              const response: IImgbb = result.data;
-              const { data, error: userError } = await supabase.auth.updateUser(
-                {
-                  data: {
-                    username: username || user?.username,
-                    pix: pix || user?.pix,
-                    icon: response.data.thumb.url,
-                    deleteICON: response.data.delete_url,
-                  },
-                }
-              );
-              if (userError) {
-                console.error(userError.message);
-                return;
-              } else {
-                alert("usuario atualizado com sucesso");
-                return;
-              }
-            });
-        } else {
-          const { data, error: userError } = await supabase.auth.updateUser({
-            data: {
-              username: username || user?.username,
-              pix: pix || user?.pix,
-              icon: user?.icon,
-              deleteICON: user?.deleteICON,
-            },
-          });
-          if (userError) {
-            console.error(userError.message);
-            return;
-          } else {
-            alert("usuario atualizado com sucesso");
-            return;
-          }
-        }
-      })();
-    }
+  async function changeImage(event: FormEvent) {
+    fileChange({ event, setImage, setPicture });
   }
 
-  const fileChange = (event: FormEvent) => {
-    const target: any = event.target;
-
-    const arquive = target.files[0];
-    const reader = new FileReader();
-    const form_data = new FormData();
-    form_data.append("image", arquive);
-    form_data.append("name", "user image");
-
-    setPicture(form_data);
-
-    reader.onload = () => {
-      const image64 = reader.result;
-      setImage(image64);
-    };
-
-    if (arquive) {
-      reader.readAsDataURL(arquive);
-    }
-  };
+  async function submiter(event: FormEvent) {
+    updateUser({ event, image, picture, user });
+  }
 
   useEffect(() => {
-    (async function recoverUserData() {
-      const request = await supabase.auth.getSession();
-      if (request) {
-        setUser({
-          id: request.data.session?.user.id,
-          deleteICON: request.data.session?.user.user_metadata.deleteICON,
-          icon: request.data.session?.user.user_metadata.icon,
-          pix: request.data.session?.user.user_metadata.pix,
-          username: request.data.session?.user.user_metadata.username,
-        });
-
-        setImage(request.data.session?.user.user_metadata.icon);
-      } else {
-        throw new Error("User is missing.");
-      }
-    })();
+    recoverUserData({ setImage, setUser });
   }, []);
+
+  
   return (
-    <form className="p-3" onSubmit={register}>
+    <form className="p-3" onSubmit={submiter}>
       <div className="flex justify-center">
         <div className="avatar">
           <div className="w-24 mask mask-squircle">
@@ -139,7 +49,7 @@ export default function Profile() {
         </label>
         <input
           type="file"
-          onChange={fileChange}
+          onChange={changeImage}
           className="file-input file-input-bordered w-full"
         />
       </div>

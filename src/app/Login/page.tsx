@@ -1,61 +1,19 @@
 "use client";
 import Swap from "@modules/components/Navbar/Swap";
-import supabase from "@modules/supabase/supabase";
-import { tryLogin } from "@modules/utils/authenticate";
+import { tryLogin } from "./login-functions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Login() {
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { push } = useRouter();
 
-  async function tryLogin(event: FormEvent) {
-    event.preventDefault();
-
-    setLoading(true);
-
-    const target = event.target as typeof event.target & {
-      email: { value: string };
-      password: { value: string };
-    };
-
-    const email = target.email.value;
-    const password = target.password.value;
-
-    if (!email) {
-      setLoading(false);
-      toast.error("Por favor, insira um e-mail.");
-      return;
-    }
-
-    if (!password) {
-      setLoading(false);
-      toast.warning("Por favor, insira o seu password.");
-      return;
-    }
-
-    const { data: user, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setLoading(false);
-      console.error(error);
-      toast.warning(error.message);
-      return;
-    } else {
-      setLoading(false);
-      if (user.session.access_token) {
-        localStorage.setItem("user_my_finance", user.session.access_token);
-      }
-      push("/Dashboard");
-    }
+  async function submiter(e: FormEvent) {
+    tryLogin({ event: e, setLoading, push });
   }
 
-  
   return (
     <div className="flex items-center min-h-screen">
       <div className="container mx-auto">
@@ -69,7 +27,7 @@ export default function Login() {
             </p>
           </div>
           <div className="m-7">
-            <form onSubmit={tryLogin}>
+            <form onSubmit={submiter}>
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -127,15 +85,12 @@ export default function Login() {
                 .
               </p>
             </form>
-            <hr  className="mt-5"/>
+            <hr className="mt-5" />
             <Swap />
-            
           </div>
-          
         </div>
         <p className="uppercase text-center text-base-content">Versão: 1.1.0</p>
       </div>
-
     </div>
   );
 }

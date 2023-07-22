@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import {useState} from "react";
 
 //Components
 import Card from "@modules/components/Card";
@@ -17,9 +17,9 @@ import { DatasStore } from "@modules/context/store";
 
 
 export default function Search() {
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const datas = DatasStore((state) => state.datas);
-  const setDatas = DatasStore((state) => state.setDatas);
+  const [loading, setLoading]         =   useState<boolean>(false);
+  const datas = DatasStore((state)    =>  state.datas);
+  const setDatas = DatasStore((state) =>  state.setDatas);
 
   return (
     <div>
