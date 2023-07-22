@@ -7,7 +7,7 @@
 
 
 ## Descrição
-FINANCEX é uma aplicação web poderosa e de fácil utilização, projetada para ajudar indivíduos a organizar suas finanças pessoais de maneira eficiente. Ele oferece recursos intuitivos para rastrear receitas, despesas e a saúde financeira geral. Este projeto tem como objetivo demonstrar minhas habilidades em desenvolvimento web, ao mesmo tempo em que atende às necessidades de usuários que buscam uma solução robusta de gerenciamento financeiro em https://my-finance-system.vercel.app
+MY FINANCE é uma aplicação web poderosa e de fácil utilização, projetada para ajudar indivíduos a organizar suas finanças pessoais de maneira eficiente. Ele oferece recursos intuitivos para rastrear receitas, despesas e a saúde financeira geral. Este projeto tem como objetivo demonstrar minhas habilidades em desenvolvimento web, ao mesmo tempo em que atende às necessidades de usuários que buscam uma solução robusta de gerenciamento financeiro em https://my-finance-system.vercel.app
 
 ![2 (1)](https://github.com/Wesley-Fernandes/my-finance-system/assets/89518536/5589a77a-4a6c-48e4-92b4-a11829a0725d)
 
